@@ -226,14 +226,127 @@
             color: var(--primary-color);
             display: none;
         }
+        a {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    ul {
+      list-style: none;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header */
+    header {
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      /* z-index: 1000; */
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      margin-right: 10px;
+      color: var(--secondary-color);
+    }
+    
+    .nav-menu {
+      display: flex;
+    }
+    
+    .nav-menu li {
+      margin-left: 30px;
+    }
+    
+    .nav-menu a {
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .nav-menu a:hover {
+      color: var(--primary-color);
+    }
+    
+    .active {
+      color: var(--primary-color) !important;
+    }
+    
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      font-size: 24px;
+    }
+    
+    .cart-icon {
+      position: relative;
+      margin-left: 20px;
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: var(--accent-color);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: bold;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     </style>
 </head>
 <body>
+    <header>
     <div class="container">
-        <header class="header">
-            <div class="logo">Plancor</div>
-            <div class="tagline">Transforming Agricultural Waste into Sustainable Products</div>
-        </header>
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <i class="fas fa-leaf"></i> EcoHarvest
+        </a>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="form.html">For Farmers</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="cart.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">0</span>
+          </a></li>
+        </ul>
+        <div class="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+      </nav>
+    </div>
+  </header>
+    <div class="container">
+        
         
         <div class="form-container">
             <h1 class="form-title">Submit Your Crop Waste</h1>
