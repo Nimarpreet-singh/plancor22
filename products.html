@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plancor - Sustainable Products from Agro-Waste</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Product Page Specific Styles */
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #388E3C;
+            --accent-color: #8BC34A;
+            --text-color: #333;
+            --light-color: #f9f9f9;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .logo h1 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu li {
+            margin-left: 20px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: var(--primary-color);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Products Section */
+        .products-hero {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .products-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .products-hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Filter Section */
+        .filters {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: white;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        /* Products Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .product-category {
+            display: inline-block;
+            background-color: #f0f8e6;
+            color: var(--primary-color);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn.secondary {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn.secondary:hover {
+            background-color: #f0f8e6;
+        }
+
+        .btn.small {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .pagination-btn {
+            margin: 0 5px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn:hover:not(.active) {
+            background-color: #f0f0f0;
+        }
+
+        /* Product Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            max-width: 900px;
+            border-radius: 8px;
+            overflow: hidden;
+            animation: modalOpen 0.4s;
+        }
+
+        @keyframes modalOpen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        .close-btn {
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .modal-image {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+
+        .modal-image img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .modal-details {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+
+        .modal-price {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .eco-impact {
+            background-color: #f0f8e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .eco-impact h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quantity-btn {
+            background-color: #f0f0f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            margin: 0 10px;
+            padding: 5px;
+            border: 1px solid var(--border-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-buttons .btn {
+            padding: 10px 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-section h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background-color: white;
+                width: 80%;
+                height: calc(100vh - 70px);
+                padding: 20px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transition: 0.3s;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 15px 0;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>EcoHarvest</h1>
+            </div>
+            <nav>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html" class="active">Products</a></li>
+                    <li><a href="form.html">Sell Your Agro-Waste</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="products-hero">
+        <div class="container">
+            <h1>Sustainable Products from Agro-Waste</h1>
+            <p>Browse our collection of eco-friendly products made from agricultural waste, supporting farmers and reducing environmental impact.</p>
+        </div>
+    </section>
+
+    <section class="main-content">
+        <div class="container">
+            <div class="filters">
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label for="category">Category</label>
+                        <select id="category">
+                            <option value="">All Categories</option>
+                            <option value="home">Home & Kitchen</option>
+                            <option value="stationery">Stationery</option>
+                            <option value="packaging">Packaging</option>
+                            <option value="garden">Garden</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="material">Material</label>
+                        <select id="material">
+                            <option value="">All Materials</option>
+                            <option value="rice">Rice Husk</option>
+                            <option value="sugarcane">Sugarcane Bagasse</option>
+                            <option value="coconut">Coconut Fiber</option>
+                            <option value="corn">Corn Husk</option>
+                            <option value="wheat">Wheat Straw</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="price">Price Range</label>
+                        <select id="price">
+                            <option value="">All Prices</option>
+                            <option value="under10">Under 500</option>
+                            <option value="10-20">1000 - 2000</option>
+                            <option value="20-50">2000 - 5000</option>
+                            <option value="over50">Over 5000</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="search">Search</label>
+                        <input type="text" id="search" placeholder="Search products...">
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="btn">Apply Filters</button>
+                        <button class="btn secondary">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-grid">
+                <!-- Product 1 -->
+                <div class="product-card" data-product-id="1">
+                    <div class="product-image">
+                        <img src="flower.png" alt="Rice Husk Plates">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Home Decor</span>
+                        <h3>Dry flower sticks (Set of 6)</h3>
+                        <p>dry flowers made after frying up the actual flowers.</p>
+                        <div class="product-footer">
+                            <span class="price">600</span>
+                            <button class="btn small view-product">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card" data-product-id="2">
+                    <div class="product-image">
+                        <img src="shell.png" alt="Sugarcane Notebooks">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Flowers</span>
+                        <h3>Sea shell Flower</h3>
+                        <p>made using actual sea shells.</p>
+                        <div class="product-footer">
+                            <span class="price">200</span>
+                            <button class="btn small view-product">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card" data-product-id="3">
+                    <div class="product-image">
+                        <img src="1.png" alt="Coconut Fiber Planters">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Decor</span>
+                        <h3>Birthday decoration</h3>
+                        <p>a sustainable option for Birthday decoration.</p>
+                        <div class="product-footer">
+                            <span class="price">2000</span>
+                            <button class="btn small view-product">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card" data-product-id="4">
+                    <div class="product-image">
+                        <img src="rose.png" alt="Corn Husk Packaging">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Decor</span>
+                        <h3>Corn leaf flower</h3>
+                        <p>Sustainable flower using leaves of actual corn</p>
+                        <div class="product-footer">
+                            <span class="price">50</span>
+                            <button class="btn small view-product">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card" data-product-id="5">
+                    <div class="product-image">
+                        <img src="bouq.png" alt="Wheat Straw Cutlery">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Home & office</span>
+                        <h3>Table bouquet</h3>
+                        <p>A bouquet to keep at shelfs and tables of your home and offices</p>
+                        <div class="product-footer">
+                            <span class="price">$14.99</span>
+                            <button class="btn small view-product">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <!-- <div class="product-card" data-product-id="6">
+                    <div class="product-image">
+                        <img src="/api/placeholder/300/300" alt="Rice Husk Bowls">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Home & Kitchen</span>
+                        <h3>Rice Husk Bowls (Set of 4)</h3>
+                        <p>Eco-friendly bowls perfect for soups and salads</p>
+                        <div class="product-footer">
+                            <span class="price">$16.99</span>
+                            <button class="btn small view-product">View Details</button>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Product 7 -->
+                <!-- <div class="product-card" data-product-id="7">
+                    <div class="product-image">
+                        <img src="/api/placeholder/300/300" alt="Sugarcane Gift Boxes">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Packaging</span>
+                        <h3>Sugarcane Gift Boxes</h3>
+                        <p>Elegant and sustainable gift packaging</p>
+                        <div class="product-footer">
+                            <span class="price">$11.99</span>
+                            <button class="btn small view-product">View Details</button>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Product 8 -->
+                <!-- <div class="product-card" data-product-id="8">
+                    <div class="product-image">
+                        <img src="/api/placeholder/300/300" alt="Corn Husk Coasters">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Home & Kitchen</span>
+                        <h3>Corn Husk Coasters (Set of 6)</h3>
+                        <p>Stylish and eco-friendly table protection</p>
+                        <div class="product-footer">
+                            <span class="price">$7.99</span>
+                            <button class="btn small view-product">View Details</button>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="pagination">
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Product Title</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modalImage" src="/api/placeholder/400/400" alt="Product">
+                </div>
+                <div class="modal-details">
+                    <div class="modal-price">$<span id="modalPrice">0.00</span></div>
+                    <p id="modalDescription">Product description will appear here...</p>
+                    
+                    <div class="eco-impact">
+                        <h4>Environmental Impact</h4>
+                        <p id="modalImpact">Information about how this product helps the environment...</p>
+                    </div>
+                    
+                    <div class="quantity-selector">
+                        <button class="quantity-btn decrease">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn increase">+</button>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn">Add to Cart</button>
+                        <button class="btn secondary">Add to Wishlist</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Plancor</h3>
+                    <p>Transforming agricultural waste into sustainable products while supporting farmers and protecting our planet.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="form.html">Sell Your Agro-Waste</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Green Street, Eco City, EC 12345</p>
+                    <p><i class="fas fa-phone"></i> +1 (123) 456-7890</p>
+                    <p><i class="fas fa-envelope"></i> info@ecoharvest.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Plancor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Product Modal Functionality
+        const modal = document.getElementById('productModal');
+        const closeBtn = document.querySelector('.close-btn');
+        const viewButtons = document.querySelectorAll('.view-product');
+        
+        // Product data (in a real application, this would come from a database)
+        const products = {
+            1: {
+                title: "Rice Husk Plates (Set of 6)",
+                price: 12.99,
+                description: "These biodegradable plates are made from rice husks that would otherwise be burned, causing air pollution. Durable enough for multiple uses but fully compostable at the end of their life cycle. Each set contains 6 plates of 10-inch diameter, perfect for everyday use or special occasions.",
+                impact: "By using these plates, you help divert approximately 1.2 kg of agricultural waste from being burned. This prevents the release of about 2 kg of CO2 emissions and reduces particulate matter pollution that affects air quality."
+            },
+            2: {
+                title: "Sugarcane Fiber Notebooks",
+                price: 8.99,
+                description: "Our premium notebooks are made from sugarcane bagasse, the fibrous residue left after extracting juice from sugarcane. Each notebook contains 100 pages of high-quality paper that's perfect for writing or sketching. The cover is made from recycled cardboard with a water-resistant coating.",
+                impact: "Each notebook uses sugarcane waste that would otherwise be discarded. The production process uses 60% less water and 40% less energy than traditional paper manufacturing, saving approximately 1.5 liters of water per notebook."
+            },
+            3: {
+                title: "Coconut Fiber Planters",
+                price: 15.99,
+                description: "These natural planters are crafted from coconut husk fibers (coir) that are a byproduct of coconut processing. The planters are naturally antifungal and provide excellent drainage and aeration for plant roots. Each set includes 3 planters of varying sizes, perfect for indoor or outdoor use.",
+                impact: "These planters utilize coconut husks that are often discarded. They're 100% biodegradable and actually enrich the soil as they break down, adding nutrients for your plants. Using these planters helps support coconut farmers by creating value from waste products."
+            },
+            4: {
+                title: "Corn Husk Packaging",
+                price: 9.99,
+                description: "Our innovative packaging solutions are made from corn husks, a common agricultural waste. The material is naturally textured, giving a unique rustic appearance while being completely biodegradable. This package includes various sizes of gift wrapping sheets and small decorative bags.",
+                impact: "Corn husks are typically discarded or burned after harvest. By transforming them into packaging materials, we reduce agricultural waste and provide a sustainable alternative to plastic packaging, which can take hundreds of years to decompose."
+            },
+            5: {
+                title: "Wheat Straw Cutlery Set",
+                price: 14.99,
+                description: "This comprehensive cutlery set includes forks, knives, and spoons made from wheat straw, a renewable resource that's typically discarded after grain harvesting. The utensils are durable, heat-resistant, and dishwasher safe, making them perfect for everyday use.",
+                impact: "Each set repurposes approximately 0.5 kg of wheat straw waste. Using these utensils instead of plastic alternatives helps reduce petroleum-based plastic production and keeps non-biodegradable waste out of landfills and oceans."
+            },
+            6: {
+                title: "Rice Husk Bowls (Set of 4)",
+                price: 16.99,
+                description: "These elegant bowls are crafted from rice husks mixed with natural binders. They're lightweight yet durable, perfect for soups, salads, and more. Microwave and dishwasher safe, these bowls combine functionality with eco-consciousness.",
+                impact: "Each set of bowls diverts about 0.8 kg of rice husks from being burned. Rice husk burning contributes significantly to air pollution in rice-growing regions, so these products help improve air quality while providing farmers with additional income."
+            },
+            7: {
+                title: "Sugarcane Gift Boxes",
+                price: 11.99,
+                description: "Our premium gift boxes are made from sugarcane bagasse pulp, creating an elegant, sustainable packaging option for gifts. This set includes three differently sized boxes with lids, perfect for presenting gifts in an eco-friendly manner.",
+                impact: "These gift boxes are not only biodegradable but also help reduce the 8 million tons of sugarcane bagasse produced annually. By choosing these over traditional packaging, you're helping minimize waste and supporting sustainable practices."
+            },
+            8: {
+                title: "Corn Husk Coasters (Set of 6)",
+                price: 7.99,
+                description: "These handcrafted coasters are made from compressed corn husks with a natural water-resistant coating. Their unique texture and appearance make them a stylish addition to any table, while their absorbent nature protects surfaces from condensation and spills.",
+                impact: "Corn husks are abundant agricultural waste that often gets burned, contributing to air pollution. Each set of coasters repurposes material that would otherwise generate approximately 1 kg of CO2 when burned, helping reduce greenhouse gas emissions."
+            }
+        };
+
+        // Open modal with product details
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productId = productCard.dataset.productId;
+                const product = products[productId];
+
+                // Populate modal with product info
+                document.getElementById('modalTitle').textContent = product.title;
+                document.getElementById('modalTitle').textContent = product.title;
+                document.getElementById('modalPrice').textContent = product.price;
+                document.getElementById('modalDescription').textContent = product.description;
+                document.getElementById('modalImpact').textContent = product.impact;
+                document.getElementById('modalImage').src = productCard.querySelector('.product-image img').src;
+                document.getElementById('modalImage').alt = product.title;
+
+                // Show modal
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+            });
+        });
+
+        // Close modal when clicking the close button
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        });
+
+        // Close modal when clicking outside the modal content
+        window.addEventListener('click', function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Quantity selector functionality
+        const decreaseBtn = document.querySelector('.decrease');
+        const increaseBtn = document.querySelector('.increase');
+        const quantityInput = document.querySelector('.quantity-input');
+
+        decreaseBtn.addEventListener('click', function() {
+            let value = parseInt(quantityInput.value);
+            if (value > 1) {
+                quantityInput.value = value - 1;
+            }
+        });
+
+        increaseBtn.addEventListener('click', function() {
+            let value = parseInt(quantityInput.value);
+            quantityInput.value = value + 1;
+        });
+
+        // Filter functionality (simplified for demo)
+        const filterBtn = document.querySelector('.filters .btn');
+        filterBtn.addEventListener('click', function() {
+            // In a real application, this would filter products based on the selected criteria
+            alert('Filter functionality would be implemented with backend processing in a complete application.');
+        });
+
+        // Reset filters
+        const resetBtn = document.querySelector('.filters .btn.secondary');
+        resetBtn.addEventListener('click', function() {
+            document.getElementById('category').value = '';
+            document.getElementById('material').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('search').value = '';
+        });
+
+        // Pagination (simplified for demo)
+        const paginationBtns = document.querySelectorAll('.pagination-btn');
+        paginationBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                paginationBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // In a real application, this would load the next page of products
+                if (!this.innerHTML.includes('fa-chevron')) {
+                    alert('In a complete application, this would load page ' + this.innerHTML + ' of products.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
